@@ -1,0 +1,13 @@
+@import url('./vendor/fonts/Inter/inter.css');
+
+.root {
+  background: #202020;
+  font-family: Inter, sans-serif;
+  --main-text-color: #fff;
+  color: var(--main-text-color);
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+}

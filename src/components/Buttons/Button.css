@@ -1,0 +1,21 @@
+.button {
+  text-decoration: none;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  width: 76px;
+  min-height: 32px;
+  align-self: center;
+}
+
+.button:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 320px) {
+  .button {
+    font-size: 10px;
+    width: 54px;
+    min-height: 26px;
+}
+}

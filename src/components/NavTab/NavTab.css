@@ -1,0 +1,16 @@
+.promo__links {
+  max-width: 500px;
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 96px);
+  grid-template-rows: repeat(1, 36px);
+  gap: 10px;
+}
+
+@media screen and (max-width:320px) {
+  .promo__links {
+    grid-template-columns: repeat(3, 82px);
+    grid-template-rows: repeat(1, 26px);
+    margin-bottom: 17px;
+  }
+}

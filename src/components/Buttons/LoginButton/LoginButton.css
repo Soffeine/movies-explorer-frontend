@@ -1,0 +1,17 @@
+.button_login {
+  color: #000;
+  background-color: #3ddc84;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 3px;
+}
+
+.button_login:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 320px) {
+  .button_login {
+    line-height: 26px;
+  }
+}
