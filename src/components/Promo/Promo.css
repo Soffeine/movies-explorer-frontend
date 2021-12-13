@@ -11,6 +11,12 @@
   padding-top: 160px;
 }
 
+@media screen and (max-width:1279px) {
+  .promo {
+    max-width: 94vw;
+  }
+}
+
 @media screen and (max-width:768px) {
   .promo{
     max-width: 94vw;

@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 229px;
 }
 
 .movie__poster {
   width: 100%;
-  height: 151px;
+  height: 65%;
 }
 
 .movie__container {
@@ -74,10 +75,6 @@
     max-height: 270px;
   }
 
-  .movie__poster {
-    height: 70%;
-  }
-
   .movie__container {
     max-height: 32px;
   }
@@ -90,20 +87,16 @@
 
 @media screen and (max-width: 768px) {
   .movie {
-    min-height: 270px;
+    max-height: 270px;
   }
 
   .movie__poster {
-    height: 190px;
+    height: 70%;
   }
 }
 
 @media screen and (max-width: 600px) {
   .movie {
     max-height: 400px;
-  }
-
-  .movie__poster {
-    height: 70%;
   }
 }

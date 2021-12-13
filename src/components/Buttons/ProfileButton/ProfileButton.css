@@ -20,7 +20,7 @@
 }
 
 @media screen and (max-width: 320px) {
-    .button_profile {
-      padding-bottom: 46px;
-    }
+  .button_profile {
+    padding-bottom: 46px;
   }
+}

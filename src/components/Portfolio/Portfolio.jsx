@@ -8,19 +8,19 @@ function Portfolio() {
             <ul className="portfolio__links">
                 <li className="portfolio__link-item">
                     <p className="portfolio__link-text">Статичный сайт</p>
-                    <a href="https://github.com/Soffeine/how-to-learn" className="portfolio__link">
+                    <a href="https://github.com/Soffeine/how-to-learn" target="_blank" className="portfolio__link">
                         <img src={sign} alt="перейти по ссылке" className="portfolio__link-sign" />
                     </a>
                 </li>
                 <li className="portfolio__link-item">
                 <p className="portfolio__link-text">Адаптивный сайт</p>
-                <a href="https://github.com/Soffeine/russian-travel" className="portfolio__link">
+                <a href="https://soffeine.github.io/russian-travel/" target="_blank" className="portfolio__link">
                     <img src={sign} alt="перейти по ссылке" className="portfolio__link-sign" />
                 </a>
                 </li>
                 <li className="portfolio__link-item">
                 <p className="portfolio__link-text">Одностраничное приложение</p>
-                <a href="https://github.com/Soffeine/react-mesto-api-full" className="portfolio__link">
+                <a href="https://mesto.soffeine.nomoredomains.xyz/" target="_blank" className="portfolio__link">
                     <img src={sign} alt="перейти по ссылке" className="portfolio__link-sign" />
                 </a>
                 </li>

@@ -7,11 +7,23 @@
   font-weight: 400;
 }
 
+@media screen and (max-width: 1279px) {
+  .section-title {
+    max-width: 92vw;
+    margin: 0 auto;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .section-title {
     max-width: 668px;
-    margin: 0 auto;
     padding-bottom: 28px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .section-title {
+    max-width: 92vw;
   }
 }
 
