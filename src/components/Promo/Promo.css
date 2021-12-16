@@ -1,0 +1,34 @@
+.promo {
+  background-color: #272727;
+  max-width: 1200px;
+  min-height: 333px;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 160px;
+}
+
+@media screen and (max-width:1279px) {
+  .promo {
+    max-width: 94vw;
+  }
+}
+
+@media screen and (max-width:768px) {
+  .promo{
+    max-width: 94vw;
+    padding-top: 350px;
+    min-height: 484px;
+  }
+}
+
+@media screen and (max-width:320px) {
+  .promo {
+    max-width: 91vw;
+    padding-top: 220px;
+    min-height: 356px;
+  }
+}

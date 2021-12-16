@@ -1,0 +1,35 @@
+.section-title {
+  border-bottom: 1px solid #dadada;
+  max-width: 1140px;
+  margin: 0;
+  padding-bottom: 23px;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1279px) {
+  .section-title {
+    max-width: 92vw;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .section-title {
+    max-width: 668px;
+    padding-bottom: 28px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .section-title {
+    max-width: 92vw;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .section-title {
+    max-width: 89vw;
+    border-bottom: none;
+  }
+}

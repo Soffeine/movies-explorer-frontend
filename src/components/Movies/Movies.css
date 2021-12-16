@@ -1,0 +1,14 @@
+.movies {
+  width: 100%;
+  margin: 70px auto 0;
+}
+
+.movies_opacity {
+  opacity: .3;
+}
+
+@media screen and (max-width: 1160px) {
+  .movies {
+    max-width: 94vw;
+  }
+}

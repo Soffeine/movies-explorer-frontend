@@ -1,0 +1,20 @@
+.button_gray {
+  text-decoration: none;
+  text-align: center;
+  color: #fff;
+  line-height: 36px;
+  font-size: 12px;
+  background: #303030;
+  border-radius: 10px;
+}
+
+.button_gray:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width:320px) {
+  .button_gray{
+    line-height: 26px;
+    border-radius: 6px;
+  }
+}
