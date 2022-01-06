@@ -14,16 +14,7 @@ function Header({ loggedIn }) {
     }
     return (
         <header className="header">
-            {loggedIn === false ? (
-                <div className="header__wrapper">
-                    <Link exact to="/" className="header__logo" />
-                    <nav className="header__navigation_auth">
-                        <Button type={ButtonType.TRANSPARENT} to={RouteTo.SIGN_UP} text={ButtonText.REGISTER} />
-                        <Button type={ButtonType.LOGIN} />
-                    </nav>
-                </div>
-            )
-                : (
+            {loggedIn ?  (
                     <div className="header__wrapper">
                         <Link exact to="/" className="header__logo" />
                         <div className={headerContainer}>
@@ -41,6 +32,17 @@ function Header({ loggedIn }) {
                         <button className={hiddenMenuButtonClasses} onClick={handleMenuButtonClick}></button>
                     </div>
                 )
+                :
+                (
+                    <div className="header__wrapper">
+                        <Link exact to="/" className="header__logo" />
+                        <nav className="header__navigation_auth">
+                            <Button type={ButtonType.TRANSPARENT} to={RouteTo.SIGN_UP} text={ButtonText.REGISTER} />
+                            <Button type={ButtonType.LOGIN} />
+                        </nav>
+                    </div>
+                )
+            
             }
         </header>
     );

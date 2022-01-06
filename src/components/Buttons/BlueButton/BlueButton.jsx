@@ -1,8 +1,8 @@
 import './BlueButton.css';
 
-function BlueButton({ text }) {
+function BlueButton({ text, disabled }) {
     return (
-        <button className="button_blue" type="submit">{text}</button>
+        <button className={(`button_blue ${disabled ? '' : 'button_blue_disabled'}`)} type="submit" disabled={disabled}>{text}</button>
     )
 }
 

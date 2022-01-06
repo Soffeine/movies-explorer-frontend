@@ -5,10 +5,10 @@ import { savedMoviesArr } from '../../utils/constants';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-function SavedMovies() {
+function SavedMovies({loggedIn}) {
     return (
         <>
-        <Header loggedIn={true}/>
+        <Header loggedIn={loggedIn}/>
         <section className="saved-movies">
             <SearchForm />
             <MoviesCardList movies={savedMoviesArr} />

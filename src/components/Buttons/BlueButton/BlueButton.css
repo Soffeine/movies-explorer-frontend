@@ -12,3 +12,9 @@
   cursor: pointer;
   background: #4285f4;
 }
+
+.button_blue_disabled {
+  background: #A0A0A0;
+  color: #202020;
+  cursor: initial;
+}

@@ -1,20 +1,41 @@
 import './Login.css';
+import useForm from '../hooks/useForm';
 import { Link } from 'react-router-dom';
 import Input from '../Input/Input';
 import Button from '../Buttons/Button';
 import { ButtonType, ButtonText } from '../../utils/constants';
 import UserWelcomeMessage from '../UserWelcomeMessage/UserWelcomeMessage';
 
-function Login() {
+
+function Login({ onLogin }) {
+
+    // Регистрация пользователя
+    const handleSubmitOnLogin = (e) => {
+        e.preventDefault();
+        onLogin(values)
+    }
+
+    const { values, errors, isValid, handleChangeOnLogin } = useForm();
+    let email = values.email;
+    let password = values.password;
+
     return (
         <section className="login">
             <Button type={ButtonType.LOGO} />
             <UserWelcomeMessage text={'Рады видеть!'} />
-            <form className="login__form">
-                <Input type="email" text="E-mail" name="email" />
-                <Input type="password" text="Пароль" name="password" />
+            <form className="login__form" onSubmit={handleSubmitOnLogin}>
+                <Input type="email" text="E-mail" name="email"
+                    value={email}
+                    onChange={handleChangeOnLogin}
+                    errorMessage={errors.email}
+                />
+                <Input type="password" text="Пароль" name="password"
+                    value={password}
+                    onChange={handleChangeOnLogin}
+                    errorMessage={errors.password}
+                />
+                <button className={(`button_blue ${isValid ? '' : 'button_blue_disabled'}`)} type="submit" disabled={!isValid}>{ButtonText.SIGN_IN}</button>
             </form>
-            <Button type={ButtonType.BLUE} text={ButtonText.SIGN_IN} />
             <p className="login__text">Ещё не зарегистрированы? <Link to='/signup' className="login__text_link">Регистрация</Link></p>
         </section>
     )
