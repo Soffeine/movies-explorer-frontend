@@ -7,7 +7,7 @@ import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 
 
-function Main({loggedIn}) {
+function Main({ loggedIn }) {
   return (
     <>
       <Header loggedIn={loggedIn} />

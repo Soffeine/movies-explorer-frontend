@@ -47,15 +47,17 @@ export const getUserData = (jwt) => {
 };
 
 // редактирование данных профиля
-export const editProfile = (name, email, jwt) => {
+export const editProfile = (data, jwt) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${jwt}`
         },
-        credentials: 'include',
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify({ 
+            name: data.name,
+            email: data.email
+        })
     })
         .then(getResponseData)
 };

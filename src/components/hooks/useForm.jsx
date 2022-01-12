@@ -6,7 +6,6 @@ const useForm = (callback) => {
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
 
-
     const handleChangeOnRegister = (e) => {
         e.persist();
         let name = e.target.name;

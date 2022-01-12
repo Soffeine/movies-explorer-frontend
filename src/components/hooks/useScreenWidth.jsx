@@ -6,14 +6,18 @@ const ScreenType = {
     MOBILE: 'MOBILE',
 }
 
-export const useScreenWidth = ({ containerRef, arr }) => {
+export const useScreenWidth = ({ containerRef, arr, isShortFilm }) => {
     const [screenWidth, setScreenWidth] = useState(0);
     const [screenType, setScreenType] = useState(ScreenType.DESKTOP);
     const [currentMoviesArr, setCurrentMoviesArr] = useState(arr);
-
+    // функция увелисения счетчика
+    // добавить параметр хука onClick
+    // либо из хука возвращать текущее количесво прибавления фильмов
+    // либо менять переменную внутри хука(лучше)
+    // если переменная меньше длинны массива, кнопка отоборажается
 
     useEffect(() => {
-        const onWindowResize = () => setScreenWidth(containerRef.current?.offsetWidth || 0);        
+        const onWindowResize = () => setScreenWidth(containerRef.current?.offsetWidth || 0);
 
         setScreenWidth(containerRef.current?.offsetWidth)
 
@@ -36,25 +40,31 @@ export const useScreenWidth = ({ containerRef, arr }) => {
         }
     }, [screenWidth])
 
+    const filterFilmArr = (arrSize, arr) => {
+        return arr.slice(0, arrSize).filter((movie) => isShortFilm ? movie : movie.duration >= 40)
+    }
     useEffect(() => {
         switch (screenType) {
             case ScreenType.DESKTOP: {
-                setCurrentMoviesArr(arr.slice(0, 16));
+                setCurrentMoviesArr(filterFilmArr(16, arr)); // переменная вместо числа
                 return;
             }
             case ScreenType.TABLET: {
-                setCurrentMoviesArr(arr.slice(0, 8));
+                setCurrentMoviesArr(filterFilmArr(8, arr));
                 return;
             }
             case ScreenType.MOBILE: {
-                setCurrentMoviesArr(arr.slice(0, 4));
+                setCurrentMoviesArr(filterFilmArr(4, arr));
                 return;
             }
             default: {
-                setCurrentMoviesArr(arr.slice(0, 16));
+                setCurrentMoviesArr(filterFilmArr(16, arr));
             }
         }
-    }, [arr, screenType])
+        // подписать на измение переменной
+
+    }, [arr, screenType, isShortFilm])
 
     return { currentMoviesArr }
 }
+
