@@ -199,13 +199,20 @@ export function App() {
   // }
 
   const onMovieDelete = (movie) => {
+    const jwt = localStorage.getItem('jwt');
     if (location.pathname === '/movies') {
       setMovies((movies) => movies.map((movie) => movieAdapter(movie)))
-    } else if (location.pathname === '/saved-movies') {
-      const jwt = localStorage.getItem('jwt');
+      setMoviesForSearch((movies) => movies.map((movie) => movieAdapter(movie)))
       MainApi.deleteMovieFromFavourites(movie._id, jwt)
-      .then((deletedMovie) => {
-        setSavedMovies(() => savedMovies.filter((movie) => deletedMovie._id !== movie._id))
+      .then(() => {
+        setSavedMovies(() => savedMovies.filter((deletedMovie) => deletedMovie._id !== movie._id))
+        setSavedMoviesForSearch(() => savedMoviesForSearch.filter((deletedMovie) => deletedMovie._id !== movie._id))
+      })
+    } else if (location.pathname === '/saved-movies') {
+      MainApi.deleteMovieFromFavourites(movie._id, jwt)
+      .then(() => {
+        setSavedMovies(() => savedMovies.filter((deletedMovie) => deletedMovie._id !== movie._id))
+        setSavedMoviesForSearch(() => savedMoviesForSearch.filter((deletedMovie) => deletedMovie._id !== movie._id))
       })
       .catch((err) => console.log(err.message))
     }
