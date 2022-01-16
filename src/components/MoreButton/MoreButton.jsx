@@ -3,12 +3,9 @@ import './MoreButton.css';
 import { useMoviesApi } from '../../utils/MoviesApi';
 import { LoadingStatus } from '../../utils/constants';
 
-const Preloader = () => {
+const Preloader = ({ onShowMoreClick }) => {
     const { movieApiStatus } = useMoviesApi();
-    // функция onClick
-    // пропадание кнопки, когда массив заканчивается
-    // перенести этот компонент в кардлист
-
+    
     if (movieApiStatus === LoadingStatus.FETCHING) {
         return (
             <div className="preloader">
@@ -21,7 +18,7 @@ const Preloader = () => {
 
     return (
         <div className="preloader">
-            <button type="button" className="preloader__show-more-button">Ещё</button>
+            <button type="button" className="preloader__show-more-button" onClick={onShowMoreClick}>Ещё</button>
         </div>
     )
 };

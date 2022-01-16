@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const ScreenType = {
     DESKTOP: 'DESkTOP',
@@ -6,11 +6,21 @@ const ScreenType = {
     MOBILE: 'MOBILE',
 }
 
-export const useScreenWidth = ({ containerRef, arr, isShortFilm }) => {
+export const useScreenWidth = ({ containerRef, arr, isShortFilm, onClick }) => {
     const [screenWidth, setScreenWidth] = useState(0);
     const [screenType, setScreenType] = useState(ScreenType.DESKTOP);
     const [currentMoviesArr, setCurrentMoviesArr] = useState(arr);
-    // функция увелисения счетчика
+    const [maxFilmCounter, setMaxFilmCounter] = useState()
+    // кнопка показать еще
+    // ------ в хуке useWitdh let MAX_FILM_COUNTER = цифра, равная изначально максимальному количеству фильмов в зависимотси от размера экрана
+    // если будут срабатывать сайд-эффекты, можно попробовать через стейт-переменную
+    // ++++++++++++а потом попробовать юзРеф
+    // функция, работающая на клик, прибавлять к переменной нужное количество отображаемых фильмов
+    function onShowMoreClick(num) {
+        return maxFilmCounter + num
+    }
+
+    // функция увеличения счетчика
     // добавить параметр хука onClick
     // либо из хука возвращать текущее количесво прибавления фильмов
     // либо менять переменную внутри хука(лучше)
@@ -46,15 +56,18 @@ export const useScreenWidth = ({ containerRef, arr, isShortFilm }) => {
     useEffect(() => {
         switch (screenType) {
             case ScreenType.DESKTOP: {
-                setCurrentMoviesArr(filterFilmArr(16, arr)); // переменная вместо числа
+                setMaxFilmCounter(16)
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr)); // переменная вместо числа
                 return;
             }
             case ScreenType.TABLET: {
-                setCurrentMoviesArr(filterFilmArr(8, arr));
+                setMaxFilmCounter(8)
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
                 return;
             }
             case ScreenType.MOBILE: {
-                setCurrentMoviesArr(filterFilmArr(4, arr));
+                setMaxFilmCounter(4)
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
                 return;
             }
             default: {
@@ -63,7 +76,8 @@ export const useScreenWidth = ({ containerRef, arr, isShortFilm }) => {
         }
         // подписать на измение переменной
 
-    }, [arr, screenType, isShortFilm])
+    }, [arr, maxFilmCounter, screenType, isShortFilm])
+
 
     return { currentMoviesArr }
 }

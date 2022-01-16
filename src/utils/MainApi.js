@@ -88,12 +88,12 @@ export const addMovieToFavourites = (item, jwt) => {
             duration: item.duration,
             year: item.year,
             description: item.description,
-            image: item.image,
-            trailer: item.trailer,
+            image: `https://api.nomoreparties.co${item.image.formats.thumbnail.url}`,
+            trailerLink: item.trailerLink,
             nameRU: item.nameRU,
             nameEN: item.nameEN,
-            thumbnail: item.thumbnail,
-            movieId: item.movieId,
+            thumbnail: `https://api.nomoreparties.co${item.image.formats.thumbnail.url}`,
+            movieId: item.id,
             owner: item.owner,
         })
     })
