@@ -8,11 +8,3 @@ const MoreButton = ({ onShowMoreClick }) => {
 };
 
 export default MoreButton;
-
-//solid
-//сделать два компонента
-// if(fetching) {
-  //  Preloader
-//} else if (film counter <=  arr.length) {
-    // return button MORE
-//}

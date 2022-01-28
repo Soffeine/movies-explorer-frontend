@@ -10,9 +10,10 @@
   text-align: center;
   color: #fff;
   cursor: pointer;
-  background: #2F2F2F;
+  background: #2f2f2f;
+  margin-top: 60px;
 }
 
 .show-more-button:hover {
-  opacity: .6;
+  opacity: 0.6;
 }

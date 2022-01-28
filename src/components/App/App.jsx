@@ -1,9 +1,7 @@
-// марджины у кнопки ЕЩЁ
+// вытаскивание из локального хранилища данные о лайках
 // компонент с сохраненными фильмами
 // почистить везде комментарии
 // запилить билд
-// вытаскивание из локального хранилища данные о лайках
-// error showing
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
@@ -114,107 +112,12 @@ export function App() {
     }
   }, [loggedIn])
 
-//   // получение фильмов с сервера при монтировании
-//   useEffect(() => {
-//     if (loggedIn) {
-//       // if(moviesWhithLikeData) {
-//       //  setMovies(moviesWhithLikeData)
-//       //  setMoviesForSearch(moviesWhithLikeData)
-//       // } else {
-//         const token = localStorage.getItem('jwt');
-//       // setMovieApiStatus(LoadingStatus.FETCHING)
-//       getMovies()
-//         .then((moviesRes) => {
-//           // setMovieApiStatus(LoadingStatus.SUCCESSFUL)
-//           const adaptedMovies = moviesRes.slice().map(movie => movieAdapter(movie))
-//           setMoviesForSearch(adaptedMovies);
-//           setMovies(adaptedMovies);
-//           console.log(movieApiStatus + " all")
-//         })
-//         .catch((err) => {
-//           // setMovieApiStatus(LoadingStatus.FAILURE)
-//           console.log(err)
-//         });
-
-//       MainApi.getSavedMovies(token)
-//         .then((savedMoviesRes) => {
-//           // setMovieApiStatus(LoadingStatus.SUCCESSFUL)
-//           const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
-//           setSavedMovies(adaptedSavedMovies);
-//           setSavedMoviesForSearch(adaptedSavedMovies);
-//           console.log(movieApiStatus + " saved")
-//         })
-//         .catch((err) => {
-//           // setMovieApiStatus(LoadingStatus.FAILURE)
-//           console.log(err)
-//         });
-// //}
-//       // if(moviesWhithLikeData) {
-//       //   console.log('bla');
-//       //   setMovies(moviesWhithLikeData);
-//       //   setMoviesForSearch(moviesWhithLikeData);
-//       // }
-//     }
-//   }, [loggedIn])
-
-
-  // if(moviesWhithLikeData) {
-  //   console.log('bla');
-  //   setMovies(moviesWhithLikeData);
-  //   setMoviesForSearch(moviesWhithLikeData);
-  // }
-
-
-
   // поиск по фильмам
   const onSearchMovies = (value, searchedMovies) =>
     setMovies(searchedMovies.filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase())))
 
   const onSearchSavedMovies = (value, savedMoviesForSearch) =>
     setSavedMovies(savedMoviesForSearch.filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase())))
-
-  //фильм должен менять значение лайка на противоположное
-  // фронт отправляет на бэк фильм с новым значением лайка
-  // бэк получает фильм и смотрит значение 
-  // если лайк есть - записать фильм в монгоДБ и вернуть фильм с новым статусом на фронт
-  // если нет  - найти фильм по айди и удалить, отправить на фронт с отсутствующим статусом
-  // не забыть сделать новый стейт массива с фильмами
-  //
-  // добавление фильма в избранное
-  // const onMovieLike = (movie) => {
-  //   const jwt = localStorage.getItem('jwt');
-  //   if (movie.isLiked) {
-  //     const movieId = movie.movieId;
-  //     MainApi.deleteMovieFromFavourites(movieId, jwt)
-  //       .then((deletedMovie) => {
-  //         if (location.pathname === '/movies') {
-  //           setMovies((movies) => movies.map((movie) => {
-  //             if (movie.id === deletedMovie.movieId) {
-  //               return movieAdapter(deletedMovie);
-  //             }
-  //             return movie;
-  //           }
-  //           ))
-  //         }
-  //         setSavedMovies(savedMovies.filter((movie) => deletedMovie.movieId !== movie.id))
-  //       })
-  //       .catch((err) => { console.log(err) })
-  //   } else {
-  //     MainApi.addMovieToFavourites(movie, jwt)
-  //       .then((newFavourite) => {
-  //         setMovies((movies) => movies.map((movie) => {
-  //           if (movie.id === newFavourite.movieId) {
-  //             return savedMovieAdapter(newFavourite);
-  //           }
-  //           return movie;
-  //         }))
-  //         if (typeof newFavourite === 'object') {
-  //           setSavedMovies([savedMovieAdapter(newFavourite), ...savedMovies])
-  //         }
-  //       })
-  //       .catch((err) => console.log(err))
-  //   }
-  // }
 
   // добавление фильма в избранное
   const onMovieLike = (movie) => {

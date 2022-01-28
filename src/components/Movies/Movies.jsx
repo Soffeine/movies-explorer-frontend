@@ -14,7 +14,6 @@ function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onMovieLike, o
     const rootRef = useRef();
     const { currentMoviesArr, onShowMoreClick, maxFilmCounter, maxFilmsNumber } = useFilmShowing({ containerRef: rootRef, arr: moviesArr, isShortFilm, })
 
-    console.log(maxFilmsNumber,  maxFilmCounter)
     return (
         <div ref={rootRef}>
             <Header loggedIn={loggedIn} />
@@ -27,28 +26,26 @@ function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onMovieLike, o
 
                 {
                     movieApiStatus === LoadingStatus.FETCHING &&
-                   (
+                    (
                         <Preloader />
                     )
                 }
                 {
                     movieApiStatus === LoadingStatus.SUCCESSFUL &&
                     (
-                    <>
-                        <MoviesCardList movies={currentMoviesArr}
-                            onMovieLike={onMovieLike}
-                            onMovieDelete={onMovieDelete}
-                        />
-                    </>
+                            <MoviesCardList movies={currentMoviesArr}
+                                onMovieLike={onMovieLike}
+                                onMovieDelete={onMovieDelete}
+                            />
                     )
                 }
                 {
-                    movieApiStatus === LoadingStatus.SUCCESSFUL && 
+                    movieApiStatus === LoadingStatus.SUCCESSFUL &&
                     maxFilmCounter < maxFilmsNumber &&
-                   ( 
-                    <MoreButton onShowMoreClick={onShowMoreClick} />
+                    (
+                        <MoreButton onShowMoreClick={onShowMoreClick} />
                     )
-                    
+
                 }
             </section>
             <Footer />
