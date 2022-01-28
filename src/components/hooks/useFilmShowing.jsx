@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 const ScreenType = {
     DESKTOP: 'DESkTOP',
@@ -6,19 +6,12 @@ const ScreenType = {
     MOBILE: 'MOBILE',
 }
 
-export const useScreenWidth = ({ containerRef, arr, isShortFilm, onClick }) => {
+export const useFilmShowing = ({ containerRef, arr, isShortFilm, }) => {
     const [screenWidth, setScreenWidth] = useState(0);
     const [screenType, setScreenType] = useState(ScreenType.DESKTOP);
     const [currentMoviesArr, setCurrentMoviesArr] = useState(arr);
-    const [maxFilmCounter, setMaxFilmCounter] = useState()
-    // кнопка показать еще
-    // ------ в хуке useWitdh let MAX_FILM_COUNTER = цифра, равная изначально максимальному количеству фильмов в зависимотси от размера экрана
-    // если будут срабатывать сайд-эффекты, можно попробовать через стейт-переменную
-    // ++++++++++++а потом попробовать юзРеф
-    // функция, работающая на клик, прибавлять к переменной нужное количество отображаемых фильмов
-    function onShowMoreClick(num) {
-        return maxFilmCounter + num
-    }
+    const [maxFilmCounter, setMaxFilmCounter] = useState();
+    const maxFilmsNumber = arr.length; 
 
     // функция увеличения счетчика
     // добавить параметр хука onClick
@@ -51,34 +44,76 @@ export const useScreenWidth = ({ containerRef, arr, isShortFilm, onClick }) => {
     }, [screenWidth])
 
     const filterFilmArr = (arrSize, arr) => {
-        return arr.slice(0, arrSize).filter((movie) => isShortFilm ? movie : movie.duration >= 40)
+        return arr.slice(0, arrSize).filter((movie) => isShortFilm ? movie.duration >= 40 : movie)
     }
+
+    
+    const onShowMoreClick = (arr) => {
+        //switch case изменение переменной на нужное число
+        // setCurrentMoviesArr(arr.slice(0, maxFilmCounter))
+        //
+        switch(screenType) {
+            case ScreenType.DESKTOP: {
+                setMaxFilmCounter((counter) => counter + 16)
+                return;
+            }
+            case ScreenType.TABLET: {
+                setMaxFilmCounter((counter) => counter + 2)
+                return;
+            }
+            case ScreenType.MOBILE: {
+                setMaxFilmCounter((counter) => counter + 1)
+                return;
+            }
+            default : {
+                setMaxFilmCounter((counter) => counter + 4) 
+                return;
+            }
+        } 
+    }
+
     useEffect(() => {
         switch (screenType) {
             case ScreenType.DESKTOP: {
                 setMaxFilmCounter(16)
-                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr)); // переменная вместо числа
                 return;
             }
             case ScreenType.TABLET: {
                 setMaxFilmCounter(8)
-                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
                 return;
             }
             case ScreenType.MOBILE: {
                 setMaxFilmCounter(4)
-                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
                 return;
             }
             default: {
-                setCurrentMoviesArr(filterFilmArr(16, arr));
+                setMaxFilmCounter(16)
             }
         }
         // подписать на измение переменной
 
-    }, [arr, maxFilmCounter, screenType, isShortFilm])
+    }, [])
 
 
-    return { currentMoviesArr }
+    useEffect(() => {
+        switch (screenType) {
+            case ScreenType.DESKTOP: {
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr)); // переменная вместо числа
+                return;
+            }
+            case ScreenType.TABLET: {
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
+                return;
+            }
+            case ScreenType.MOBILE: {
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
+                return;
+            }
+            default: {
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
+            }
+        }
+    }, [screenType, arr, isShortFilm, maxFilmCounter])
+
+    return { currentMoviesArr, onShowMoreClick, maxFilmCounter, maxFilmsNumber }
 }
-

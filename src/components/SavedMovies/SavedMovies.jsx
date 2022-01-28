@@ -4,13 +4,13 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { useScreenWidth } from '../hooks/useScreenWidth';
+import { useFilmShowing } from '../hooks/useFilmShowing';
 import MoreButton from '../MoreButton/MoreButton';
 
 function SavedMovies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onShowMoreClick,onMovieLike, onMovieDelete }) {
     const [isShortFilm, setIsShortFilm] = useState(false)
     const rootRef = useRef();
-    const { currentMoviesArr } = useScreenWidth({ containerRef: rootRef, arr: moviesArr, isShortFilm })
+    const { currentMoviesArr } = useFilmShowing({ containerRef: rootRef, arr: moviesArr, isShortFilm })
     return (
         <div ref={rootRef}>
             <Header loggedIn={loggedIn} />

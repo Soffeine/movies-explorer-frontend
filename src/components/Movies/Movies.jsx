@@ -4,14 +4,17 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-import { useScreenWidth } from '../hooks/useScreenWidth';
+import { useFilmShowing } from '../hooks/useFilmShowing';
 import MoreButton from '../MoreButton/MoreButton';
+import Preloader from '../Preloader/Preloader';
+import { LoadingStatus } from '../../utils/constants';
 
-function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onShowMoreClick, onMovieLike, onMovieDelete }) {
+function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onMovieLike, onMovieDelete, movieApiStatus }) {
     const [isShortFilm, setIsShortFilm] = useState(false)
     const rootRef = useRef();
-    const { currentMoviesArr } = useScreenWidth({ containerRef: rootRef, arr: moviesArr, isShortFilm })
+    const { currentMoviesArr, onShowMoreClick, maxFilmCounter, maxFilmsNumber } = useFilmShowing({ containerRef: rootRef, arr: moviesArr, isShortFilm, })
 
+    console.log(maxFilmsNumber,  maxFilmCounter)
     return (
         <div ref={rootRef}>
             <Header loggedIn={loggedIn} />
@@ -21,11 +24,32 @@ function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onShowMoreClic
                     movieArr={moviesArr}
                     searchMoviesArr={searchMoviesArr}
                 />
-                <MoviesCardList movies={currentMoviesArr}
-                    onMovieLike={onMovieLike}
-                    onMovieDelete={onMovieDelete}
-                />
-                <MoreButton onShowMoreClick={onShowMoreClick} />
+
+                {
+                    movieApiStatus === LoadingStatus.FETCHING &&
+                   (
+                        <Preloader />
+                    )
+                }
+                {
+                    movieApiStatus === LoadingStatus.SUCCESSFUL &&
+                    (
+                    <>
+                        <MoviesCardList movies={currentMoviesArr}
+                            onMovieLike={onMovieLike}
+                            onMovieDelete={onMovieDelete}
+                        />
+                    </>
+                    )
+                }
+                {
+                    movieApiStatus === LoadingStatus.SUCCESSFUL && 
+                    maxFilmCounter < maxFilmsNumber &&
+                   ( 
+                    <MoreButton onShowMoreClick={onShowMoreClick} />
+                    )
+                    
+                }
             </section>
             <Footer />
         </div>

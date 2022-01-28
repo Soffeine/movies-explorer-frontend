@@ -40,7 +40,7 @@ export const LoadingStatus = {
     INNITIAL: "INITIAL",
     FETCHING: "FETCHING",
     SUCCESSFUL: "SUCCESSFUL",
-    FAILURE: "FAILURE"
+    FAILURE: "FAILURE",
 }
 
 

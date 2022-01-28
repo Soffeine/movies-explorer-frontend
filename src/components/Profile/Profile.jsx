@@ -7,7 +7,8 @@ import useForm from '../hooks/useForm';
 
 function Profile({ onSignout, loggedIn, onEditProfile }) {
     const { values, isValid, errors, handleChangeOnRegister } = useForm()
-    const currentUser = useContext(CurrentUserContext);
+    const { name, email } = useContext(CurrentUserContext);
+    
 
     const handleSubmitOnEdit = (e) => {
         e.preventDefault();
@@ -17,16 +18,16 @@ function Profile({ onSignout, loggedIn, onEditProfile }) {
         <>
             <Header loggedIn={loggedIn} />
             <section className="profile">
-                <UserWelcomeMessage text={`Привет, ${currentUser.name}`} />
+                <UserWelcomeMessage text={`Привет, ${name}`} />
                 <form className="profile__form" onSubmit={handleSubmitOnEdit}>
                     <div className="profile__input-container">
                         <label className="profile__label">Имя</label>
-                        <input className="profile__input" type="text" name="name" required defaultValue={currentUser.name} onChange={handleChangeOnRegister} />
+                        <input className="profile__input" type="text" name="name" required defaultValue={name} onChange={handleChangeOnRegister} />
                     </div>
                     <div className="profile__input-error"><p className="profile__input-error-message">{errors.name}</p></div>
                     <div className="profile__input-container">
                         <label className="profile__label">E-mail</label>
-                        <input className="profile__input" type="email" name="email" required defaultValue={currentUser.email} onChange={handleChangeOnRegister} />
+                        <input className="profile__input" type="email" name="email" required defaultValue={email} onChange={handleChangeOnRegister} />
                     </div>
                     <div className="profile__input-error"><p className="profile__input-error-message">{errors.email}</p></div>
                     <div className="profile__button-container">
