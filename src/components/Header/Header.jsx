@@ -16,7 +16,7 @@ function Header({ loggedIn }) {
         <header className="header">
             {loggedIn ?  (
                     <div className="header__wrapper">
-                        <Link exact to="/" className="header__logo" />
+                        <Link to="/" className="header__logo" />
                         <div className={headerContainer}>
                         
                             <nav className="header__navigation_movies">
@@ -35,7 +35,7 @@ function Header({ loggedIn }) {
                 :
                 (
                     <div className="header__wrapper">
-                        <Link exact to="/" className="header__logo" />
+                        <Link to="/" className="header__logo" />
                         <nav className="header__navigation_auth">
                             <Button type={ButtonType.TRANSPARENT} to={RouteTo.SIGN_UP} text={ButtonText.REGISTER} />
                             <Button type={ButtonType.LOGIN} />

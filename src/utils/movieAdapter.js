@@ -3,6 +3,7 @@ export const movieAdapter = (movie) => {
         return {
             ...movie,
             isLiked: false,
+            movieId: movie.id,
         }
     }
 }

@@ -1,6 +1,4 @@
 // вытаскивание из локального хранилища данные о лайках
-// компонент с сохраненными фильмами
-// почистить везде комментарии
 // запилить билд
 import './App.css';
 import { useEffect, useState } from 'react';
@@ -94,6 +92,18 @@ export function App() {
   useEffect(() => {
     if (loggedIn) {
       const token = localStorage.getItem('jwt');
+      if(moviesWhithLikeData) {
+        setMovies(moviesWhithLikeData)
+        setMoviesForSearch(moviesWhithLikeData)
+        MainApi.getSavedMovies(token)
+        .then(setMovieApiStatus(LoadingStatus.FETCHING))
+        .then((savedMoviesRes) => {
+          const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
+          setSavedMovies(adaptedSavedMovies);
+          setSavedMoviesForSearch(adaptedSavedMovies);
+          setMovieApiStatus(LoadingStatus.SUCCESSFUL)
+        })
+      } else {
       Promise.all([getMovies(), MainApi.getSavedMovies(token)])
         .then(setMovieApiStatus(LoadingStatus.FETCHING))
         .then(([moviesRes, savedMoviesRes]) => {
@@ -109,6 +119,7 @@ export function App() {
           console.log(err)
           setMovieApiStatus(LoadingStatus.FAILURE)
         })
+      }
     }
   }, [loggedIn])
 
@@ -125,6 +136,7 @@ export function App() {
     MainApi.addMovieToFavourites(movie, jwt)
       .then((newFavourite) => {
         setMovies((movies) => movies.map((movie) => {
+          console.log(movie.id, newFavourite.movieId)
           if (movie.id === newFavourite.movieId) {
             return savedMovieAdapter(newFavourite);
           }
@@ -192,6 +204,7 @@ export function App() {
             loggedIn={loggedIn}
             onMovieLike={onMovieLike}
             onMovieDelete={onMovieDelete}
+            movieApiStatus={movieApiStatus}
           />
           <ProtectedRoute path="/profile"
             component={Profile}

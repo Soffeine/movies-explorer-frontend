@@ -7,13 +7,6 @@
   gap: 20px;
 }
 
-.movies-card-list__empty-block {
-  margin: 0 auto;
-  font-size: 30px;
-  text-align: center;
-  font-weight: 500;
-}
-
 @media screen and (max-width: 1160px) {
   .movies-card-list {
     max-width: 94vw;

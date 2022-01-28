@@ -11,13 +11,7 @@ export const useFilmShowing = ({ containerRef, arr, isShortFilm, }) => {
     const [screenType, setScreenType] = useState(ScreenType.DESKTOP);
     const [currentMoviesArr, setCurrentMoviesArr] = useState(arr);
     const [maxFilmCounter, setMaxFilmCounter] = useState();
-    const maxFilmsNumber = arr.length; 
-
-    // функция увеличения счетчика
-    // добавить параметр хука onClick
-    // либо из хука возвращать текущее количесво прибавления фильмов
-    // либо менять переменную внутри хука(лучше)
-    // если переменная меньше длинны массива, кнопка отоборажается
+    const maxFilmsNumber = arr.length;
 
     useEffect(() => {
         const onWindowResize = () => setScreenWidth(containerRef.current?.offsetWidth || 0);
@@ -48,10 +42,7 @@ export const useFilmShowing = ({ containerRef, arr, isShortFilm, }) => {
     }
 
     
-    const onShowMoreClick = (arr) => {
-        //switch case изменение переменной на нужное число
-        // setCurrentMoviesArr(arr.slice(0, maxFilmCounter))
-        //
+    const onShowMoreClick = () => {
         switch(screenType) {
             case ScreenType.DESKTOP: {
                 setMaxFilmCounter((counter) => counter + 16)

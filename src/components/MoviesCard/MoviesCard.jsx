@@ -16,7 +16,6 @@ function MoviesCard({ movie, onLike, onDelete }) {
     const imageUrl = location.pathname === '/movies' && typeof movie === 'object' && movie?.image?.formats?.thumbnail?.url ? BASE_URL + movie.image.formats.thumbnail.url : movie.image;
 
     const handleLikeClick = () => {
-        // onLike(movie)
         isLiked ? onDelete(movie) : onLike(movie)
     }
     return (

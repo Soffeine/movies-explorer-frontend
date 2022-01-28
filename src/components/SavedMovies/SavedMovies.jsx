@@ -22,19 +22,23 @@ function SavedMovies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onMovieLi
                     movieArr={moviesArr}
                     searchMoviesArr={searchMoviesArr}
                 />
-                            {
+                {
                     movieApiStatus === LoadingStatus.FETCHING &&
                     (
                         <Preloader />
                     )
                 }
                 {
+                    currentMoviesArr.length < 1 && 
+                    <p className="empty-list">В избранном пока нет фильмов</p>
+                }
+                {
                     movieApiStatus === LoadingStatus.SUCCESSFUL &&
                     (
-                            <MoviesCardList movies={currentMoviesArr}
-                                onMovieLike={onMovieLike}
-                                onMovieDelete={onMovieDelete}
-                            />
+                        <MoviesCardList movies={currentMoviesArr}
+                            onMovieLike={onMovieLike}
+                            onMovieDelete={onMovieDelete}
+                        />
                     )
                 }
                 {

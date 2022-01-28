@@ -30,6 +30,10 @@ function Movies({ loggedIn, moviesArr, onSearch, searchMoviesArr, onMovieLike, o
                         <Preloader />
                     )
                 }
+                                {
+                    currentMoviesArr.length < 1 && movieApiStatus === LoadingStatus.SUCCESSFUL &&
+                    <p className="empty-list">Ничего не найдено</p>
+                }
                 {
                     movieApiStatus === LoadingStatus.SUCCESSFUL &&
                     (
