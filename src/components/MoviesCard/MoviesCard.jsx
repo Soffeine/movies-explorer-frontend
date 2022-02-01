@@ -20,9 +20,9 @@ function MoviesCard({ movie, onLike, onDelete }) {
     }
     return (
         <div className="movie">
-            <img className="movie__poster" src={imageUrl} alt={director} />
+            <a href={movie.trailerLink} className="movie__poster" target="_blank" rel='noreferrer'><img className="movie__poster-image" src={imageUrl} alt={director} /></a>
             <div className="movie__container">
-                <a href={movie.trailerLink} className="movie__name">{nameRU}</a >
+                <a href={movie.trailerLink} className="movie__name" target="_blank" rel='noreferrer'>{nameRU}</a>
                 <button className={likeStatus} onClick={handleLikeClick}></button>
             </div>
             <p className="movie__duration">{getTimeFromMins(duration)}</p>
