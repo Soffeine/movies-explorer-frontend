@@ -136,7 +136,6 @@ export function App() {
     MainApi.addMovieToFavourites(movie, jwt)
       .then((newFavourite) => {
         setMovies((movies) => movies.map((movie) => {
-          console.log(movie.id, newFavourite.movieId)
           if (movie.id === newFavourite.movieId) {
             return savedMovieAdapter(newFavourite);
           }
@@ -205,13 +204,13 @@ export function App() {
             onMovieLike={onMovieLike}
             onMovieDelete={onMovieDelete}
             movieApiStatus={movieApiStatus}
+            onSearch={onSearchSavedMovies}
           />
           <ProtectedRoute path="/profile"
             component={Profile}
             onEditProfile={onEditProfile}
             onSignout={onLogout}
             loggedIn={loggedIn}
-            onSearch={onSearchSavedMovies}
           />
 
           <Route path="/signup">
