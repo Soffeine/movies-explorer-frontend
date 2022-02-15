@@ -7,7 +7,7 @@ import { ButtonType, ButtonText } from '../../utils/constants';
 import UserWelcomeMessage from '../UserWelcomeMessage/UserWelcomeMessage';
 
 
-function Login({ onLogin }) {
+function Login({ onLogin, submitError }) {
 
     // Регистрация пользователя
     const handleSubmitOnLogin = (e) => {
@@ -32,7 +32,7 @@ function Login({ onLogin }) {
                 <Input type="password" text="Пароль" name="password"
                     value={password}
                     onChange={handleChangeOnLogin}
-                    errorMessage={errors.password}
+                    errorMessage={errors.password || submitError}
                 />
                 <button className={(`button_blue ${isValid ? '' : 'button_blue_disabled'}`)} type="submit" disabled={!isValid}>{ButtonText.SIGN_IN}</button>
             </form>

@@ -113,9 +113,10 @@ const useForm = (callback) => {
         && e.target.closest("form").checkValidity() ? setIsValid(true) : setIsValid(false);
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        callback();
+    const setSubmitError = (errorText) => {
+        setErrors({
+            submit: errorText,
+        });
     }
 
 
@@ -125,7 +126,7 @@ const useForm = (callback) => {
         isValid,
         handleChangeOnRegister,
         handleChangeOnLogin,
-        handleSubmit,
+        setSubmitError,
     }
 }
 

@@ -6,13 +6,14 @@ import Button from '../Buttons/Button';
 import { ButtonType, ButtonText } from '../../utils/constants';
 import UserWelcomeMessage from '../UserWelcomeMessage/UserWelcomeMessage';
 
-function Register({ onRegister }) {
+function Register({ onRegister, submitError }) {
 
-    const handleSubmitOnRegister = () => {
-        onRegister(name, email, password)
+    const handleSubmitOnRegister = (e) => {
+        e.preventDefault();
+        onRegister(name, email, password);
     }
 
-    const { handleChangeOnRegister, values, errors, isValid, handleSubmit } = useForm(handleSubmitOnRegister);
+    const { handleChangeOnRegister, values, errors, isValid } = useForm();
     let name = values.name;
     let email = values.email;
     let password = values.password;
@@ -21,7 +22,7 @@ function Register({ onRegister }) {
         <section className="register">
             <Button type={ButtonType.LOGO} />
             <UserWelcomeMessage text={'Добро пожаловать!'} />
-            <form className="form register__form" onSubmit={handleSubmit}>
+            <form className="form register__form" onSubmit={handleSubmitOnRegister}>
                 <Input type="text" text="Имя" name="name"
                     value={name}
                     onChange={handleChangeOnRegister}
@@ -34,7 +35,7 @@ function Register({ onRegister }) {
                 />
                 <Input type="password" text="Пароль" name="password"
                     onChange={handleChangeOnRegister}
-                    errorMessage={errors.password}
+                    errorMessage={errors.password || submitError}
                     value={password}
                 />
                 <button className={(`button_blue ${isValid ? '' : 'button_blue_disabled'}`)} type="submit" disabled={!isValid}>{ButtonText.SIGN_UP}</button>

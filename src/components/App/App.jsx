@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
@@ -14,6 +15,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useMoviesApi } from '../../utils/MoviesApi.js';
 import { LoadingStatus } from '../../utils/constants';
 import { movieAdapter, savedMovieAdapter } from '../../utils/movieAdapter';
+import useForm from '../hooks/useForm';
 
 export function App() {
 
@@ -28,6 +30,8 @@ export function App() {
   const [moviesForSearch, setMoviesForSearch] = useState([]);
   const [savedMoviesForSearch, setSavedMoviesForSearch] = useState([]);
 
+  const { errors, setSubmitError } = useForm();
+
 
   // Регистрация пользователя
   const onRegister = (name, email, password) => {
@@ -35,7 +39,13 @@ export function App() {
       .then(() => {
         history.push('/signin')
       })
-      .catch((err) => { console.log(err) });
+      .catch((err) => { 
+        if (err === 409) {
+          setSubmitError('Пользователь с таким email уже зарегестрирован');
+        } else {
+          setSubmitError('Ну вот, что-то пошло не так...');
+        }
+      });
   }
 
   // Авторизация пользователя
@@ -45,7 +55,14 @@ export function App() {
         setLoggedIn(true)
         history.push('/movies');
       })
-      .catch((err) => { console.log(err.message) })
+      .catch((err) => {
+        if (err === 401) {
+          setSubmitError('Неверно введён email или пароль');
+        }
+        else {
+          setSubmitError('Ну вот, что-то пошло не так...');
+        }
+      })
   }
 
   // Выход из аккаунта
@@ -214,12 +231,14 @@ export function App() {
           <Route path="/signup">
             <Register
               onRegister={onRegister}
+              submitError={errors.submit}
             />
           </Route>
 
           <Route path="/signin">
             <Login
               onLogin={onLogin}
+              submitError={errors.submit}
             />
           </Route>
 
