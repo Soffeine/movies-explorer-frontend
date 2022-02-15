@@ -69,6 +69,7 @@ export function App() {
   function onLogout() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
+    localStorage.removeItem('moviesArr');
   }
 
   // редактирование данных пользователя
@@ -79,9 +80,12 @@ export function App() {
         setCurrentUser({
           name: res.name,
           email: res.email
-        })
+        });
+        setSubmitError('Данные изменены!')
       })
-      .catch((err) => { console.log(err) })
+      .catch((err) => {
+        setSubmitError('Ну вот, что-то пошло не так...')
+      })
   }
 
   // проверка авторизиции и получение данных пользователя при монтировании
@@ -226,6 +230,7 @@ export function App() {
             onEditProfile={onEditProfile}
             onSignout={onLogout}
             loggedIn={loggedIn}
+            submitSpan={errors.submit}
           />
 
           <Route path="/signup">

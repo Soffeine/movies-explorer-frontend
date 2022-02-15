@@ -5,7 +5,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useContext } from 'react';
 import useForm from '../hooks/useForm';
 
-function Profile({ onSignout, loggedIn, onEditProfile }) {
+function Profile({ onSignout, loggedIn, onEditProfile, submitSpan }) {
     const { values, isValid, errors, handleChangeOnRegister } = useForm()
     const { name, email } = useContext(CurrentUserContext);
     
@@ -29,7 +29,7 @@ function Profile({ onSignout, loggedIn, onEditProfile }) {
                         <label className="profile__label">E-mail</label>
                         <input className="profile__input" type="email" name="email" required defaultValue={email} onChange={handleChangeOnRegister} />
                     </div>
-                    <div className="profile__input-error"><p className="profile__input-error-message">{errors.email}</p></div>
+                    <div className="profile__input-error"><p className="profile__input-error-message">{errors.email || submitSpan}</p></div>
                     <div className="profile__button-container">
                         <button className="profile__button profile__button_submit" type="submit" disabled={!isValid}>Редактировать</button>
                         <button className="profile__button profile__button_signout" type="button" onClick={onSignout}>Выйти из аккаунта</button>

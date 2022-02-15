@@ -45,7 +45,7 @@ export const useFilmShowing = ({ containerRef, arr, isShortFilm, }) => {
     const onShowMoreClick = () => {
         switch(screenType) {
             case ScreenType.DESKTOP: {
-                setMaxFilmCounter((counter) => counter + 16)
+                setMaxFilmCounter((counter) => counter + 4)
                 return;
             }
             case ScreenType.TABLET: {
