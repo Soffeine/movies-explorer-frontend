@@ -1,5 +1,3 @@
-// вытаскивание из локального хранилища данные о лайках
-// запилить билд
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';

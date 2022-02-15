@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { omit } from 'lodash';
+import validator from 'validator';
+// валидация имейла
+// сообщение при сабмите
+// валидация поля пароля (еще это надо глянуть в ревью)
+
 
 const useForm = (callback) => {
     const [values, setValues] = useState({});
@@ -46,11 +51,7 @@ const useForm = (callback) => {
                 }
                 break;
             case 'email':
-                if (
-                    !new RegExp
-                    (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-                    .test(value)
-                ) {
+                if (!validator.isEmail(value)) {
                     setErrors({
                         ...errors,
                         email: 'Некорректный адрес'
