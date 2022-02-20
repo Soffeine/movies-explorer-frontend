@@ -15,6 +15,7 @@ function Profile({ onSignout, loggedIn, onEditProfile, submitSpan }) {
     const [errors, setErrors] = useState({});
 
     const emailRef = useRef();
+    const nameRef = useRef();
     const formRef = useRef();
 
     const [isNeedButtonDisabled, setIsNeedButtonDisabled] = useState(false);
@@ -43,7 +44,7 @@ function Profile({ onSignout, loggedIn, onEditProfile, submitSpan }) {
                 if (
                     new RegExp
                         (/[^a-zа-яё\-\s]/gi)
-                        .test(name || '')
+                        .test(nameRef.current.value)
                 ) {
                     setErrors({
                         ...errors,
@@ -77,19 +78,15 @@ function Profile({ onSignout, loggedIn, onEditProfile, submitSpan }) {
 
     const checkNameChange = () => {
         if (currentUser.name === name) {
-            console.log(true)
             return true;
         }
-        console.log(false);
         return false;
     }
 
     const checkEmailChange = () => {
         if(currentUser.email === email) {
-            console.log(true)
             return true;
         }
-        console.log(false);
         return false;
     }
 
@@ -109,7 +106,7 @@ function Profile({ onSignout, loggedIn, onEditProfile, submitSpan }) {
                 <form ref={formRef} className="profile__form" onSubmit={handleSubmitOnEdit}>
                     <div className="profile__input-container">
                         <label className="profile__label">Имя</label>
-                        <input className="profile__input" type="text" name="name" required value={name} onChange={handleChangeName} />
+                        <input ref={nameRef} className="profile__input" type="text" name="name" required value={name} onChange={handleChangeName} />
                     </div>
                     <div className="profile__input-error"><p className="profile__input-error-message">{errors.name}</p></div>
                     <div className="profile__input-container">
