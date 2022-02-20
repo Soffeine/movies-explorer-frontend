@@ -1,6 +1,5 @@
 // лайки
 // сохранение состояния чекбокса и результата поиска
-// регистрация с авто-авторизацией
 import React from 'react';
 import './App.css';
 import { useEffect, useState } from 'react';
@@ -40,7 +39,7 @@ export function App() {
   const onRegister = (name, email, password) => {
     MainApi.register(name, email, password)
       .then(() => {
-        history.push('/signin')
+        onLogin({ email, password })
       })
       .catch((err) => { 
         if (err === 409) {
