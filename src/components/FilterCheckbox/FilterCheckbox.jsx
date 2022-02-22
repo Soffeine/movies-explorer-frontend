@@ -1,6 +1,6 @@
 import './FilterCheckbox.css';
 
-function FilterCheckbox({handleCheckbox}) {
+function FilterCheckbox({ handleCheckbox }) {
     const onCheckboxChange = () => handleCheckbox((prev) => !prev)
     return (
         <label className="checkbox">

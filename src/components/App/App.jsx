@@ -41,7 +41,7 @@ export function App() {
       .then(() => {
         onLogin({ email, password })
       })
-      .catch((err) => { 
+      .catch((err) => {
         if (err === 409) {
           setSubmitError('Пользователь с таким email уже зарегестрирован');
         } else {
@@ -72,6 +72,7 @@ export function App() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
     localStorage.removeItem('moviesArr');
+    localStorage.removeItem('moviesOnSearch')
   }
 
   // редактирование данных пользователя
@@ -113,62 +114,61 @@ export function App() {
   useEffect(() => {
     if (loggedIn) {
       const token = localStorage.getItem('jwt');
-      if(moviesWhithLikeData) {
+      if (moviesWhithLikeData) {
         setMovies(moviesWhithLikeData)
         setMoviesForSearch(moviesWhithLikeData)
         MainApi.getSavedMovies(token)
-        .then(setMovieApiStatus(LoadingStatus.FETCHING))
-        .then((savedMoviesRes) => {
-          const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
-          setSavedMovies(adaptedSavedMovies);
-          setSavedMoviesForSearch(adaptedSavedMovies);
-          setMovieApiStatus(LoadingStatus.SUCCESSFUL)
-        })
+          .then(setMovieApiStatus(LoadingStatus.FETCHING))
+          .then((savedMoviesRes) => {
+            const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
+            setSavedMovies(adaptedSavedMovies);
+            setSavedMoviesForSearch(adaptedSavedMovies);
+            setMovieApiStatus(LoadingStatus.SUCCESSFUL)
+          })
       } else {
-      Promise.all([getMovies(), MainApi.getSavedMovies(token)])
-        .then(setMovieApiStatus(LoadingStatus.FETCHING))
-        .then(([moviesRes, savedMoviesRes]) => {
-          const adaptedMovies = moviesRes.slice().map(movie => movieAdapter(movie))
-          const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
-          setMoviesForSearch(adaptedMovies);
-          setMovies(adaptedMovies);
-          setSavedMovies(adaptedSavedMovies);
-          setSavedMoviesForSearch(adaptedSavedMovies);
-          setMovieApiStatus(LoadingStatus.SUCCESSFUL)
-        })
-        .catch((err) => {
-          console.log(err)
-          setMovieApiStatus(LoadingStatus.FAILURE)
-        })
+        Promise.all([getMovies(), MainApi.getSavedMovies(token)])
+          .then(setMovieApiStatus(LoadingStatus.FETCHING))
+          .then(([moviesRes, savedMoviesRes]) => {
+            const adaptedMovies = moviesRes.slice().map(movie => movieAdapter(movie))
+            const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
+            setMoviesForSearch(adaptedMovies);
+            setMovies(adaptedMovies);
+            setSavedMovies(adaptedSavedMovies);
+            setSavedMoviesForSearch(adaptedSavedMovies);
+            setMovieApiStatus(LoadingStatus.SUCCESSFUL)
+          })
+          .catch((err) => {
+            console.log(err)
+            setMovieApiStatus(LoadingStatus.FAILURE)
+          })
       }
     }
   }, [loggedIn])
 
+  const searchFunction = (searchedMovies, value) => searchedMovies.slice().filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase()))
+
   // поиск по фильмам
-  const onSearchMovies = (value, searchedMovies) =>
-    setMovies(searchedMovies.filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase())))
+  const onSearchMovies = (value, searchedMovies) => {
+    const searchResult = searchFunction(searchedMovies, value)
+    setMovies(searchResult);
+  }
 
-  const onSearchSavedMovies = (value, savedMoviesForSearch) =>
-    setSavedMovies(savedMoviesForSearch.filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase())))
-
+  const onSearchSavedMovies = (value, savedMoviesForSearch) => {
+    const searchResult = searchFunction(savedMoviesForSearch, value)
+    setSavedMovies(searchResult)
+  }
   // добавление фильма в избранное
   const onMovieLike = (movie) => {
     const jwt = localStorage.getItem('jwt');
     MainApi.addMovieToFavourites(movie, jwt)
       .then((newFavourite) => {
-        setMovies((movies) => movies.map((movie) => {
-          if (movie.id === newFavourite.movieId) {
-            return savedMovieAdapter(newFavourite);
-          }
-          return movie;
-        }));
-        setMoviesForSearch((movies) => movies.map((movie) => {
-          if (movie.id === newFavourite.movieId) {
-            return savedMovieAdapter(newFavourite);
-          }
-          return movie;
-        }));
-        localStorage.setItem('moviesArr', JSON.stringify(movies))
+        const moviesWithLikes = movies.map((m) => m.id === newFavourite.movieId ? savedMovieAdapter(m) : m);
+
+        setMovies(moviesWithLikes);
+        setMoviesForSearch(moviesWithLikes);
+
+        localStorage.setItem('moviesArr', JSON.stringify(moviesWithLikes));
+
         if (typeof newFavourite === 'object') {
           setSavedMovies([savedMovieAdapter(newFavourite), ...savedMovies]);
           setSavedMoviesForSearch([savedMovieAdapter(newFavourite), ...savedMovies]);
@@ -176,25 +176,22 @@ export function App() {
       })
       .catch((err) => console.log(err))
   }
-
+  // удаление лайка
   const onMovieDelete = (movie) => {
     const jwt = localStorage.getItem('jwt');
-    if (location.pathname === '/movies') {
-      setMovies((movies) => movies.map((movie) => movieAdapter(movie)))
-      setMoviesForSearch((movies) => movies.map((movie) => movieAdapter(movie)))
-      MainApi.deleteMovieFromFavourites(movie._id, jwt)
-        .then(() => {
-          setSavedMovies(() => savedMovies.filter((deletedMovie) => deletedMovie._id !== movie._id))
-          setSavedMoviesForSearch(() => savedMoviesForSearch.filter((deletedMovie) => deletedMovie._id !== movie._id))
-        })
-    } else if (location.pathname === '/saved-movies') {
-      MainApi.deleteMovieFromFavourites(movie._id, jwt)
-        .then(() => {
-          setSavedMovies(() => savedMovies.filter((deletedMovie) => deletedMovie._id !== movie._id))
-          setSavedMoviesForSearch(() => savedMoviesForSearch.filter((deletedMovie) => deletedMovie._id !== movie._id))
-        })
-        .catch((err) => console.log(err.message))
-    }
+    MainApi.deleteMovieFromFavourites(movie._id, jwt)
+    .then((deletedMovie) => {
+      const newSavedMovies = savedMovies.filter((m) => m._id !== deletedMovie._id);
+      const newAllMovies = movies.map((m) => m.id === deletedMovie.movieId ? movieAdapter(m) : m);
+
+      setSavedMovies(newSavedMovies);
+      setSavedMoviesForSearch(newSavedMovies);
+
+      setMovies(newAllMovies);
+      setMoviesForSearch(newAllMovies);
+
+      localStorage.setItem('moviesArr', JSON.stringify(newAllMovies));
+    })
   }
 
   return (

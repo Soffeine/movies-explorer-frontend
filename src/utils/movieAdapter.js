@@ -9,6 +9,13 @@ export const movieAdapter = (movie) => {
 }
 
 export const savedMovieAdapter = (movie) => {
+    // if(movie.hasOwnProperty('isLiked')) {
+    //     const current = movie.isLiked;
+    //     return {
+    //         ...movie,
+    //         isLiked: !current,
+    //     }
+    // }
     if(typeof movie === 'object') {
         return {
             ...movie,

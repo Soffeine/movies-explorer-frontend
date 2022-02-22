@@ -29,10 +29,9 @@ function SearchForm({ handleCheckbox, onSearch, movieArr, searchMoviesArr }) {
                             type="text"
                             className="search-form__input"
                             placeholder="Фильм"
-                            minLength="2"
                             maxLength="30"
-                            required
                             value={value}
+                            required
                             onChange={handleChangeOnSearch}
                         />
                         <button className="search-form__button" type="submit">Поиск</button>
