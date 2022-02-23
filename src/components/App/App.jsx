@@ -1,4 +1,3 @@
-// лайки
 // сохранение состояния чекбокса и результата поиска
 import React from 'react';
 import './App.css';
@@ -157,6 +156,7 @@ export function App() {
     const searchResult = searchFunction(savedMoviesForSearch, value)
     setSavedMovies(searchResult)
   }
+
   // добавление фильма в избранное
   const onMovieLike = (movie) => {
     const jwt = localStorage.getItem('jwt');
@@ -176,22 +176,43 @@ export function App() {
       })
       .catch((err) => console.log(err))
   }
-  // удаление лайка
+
+  // удаление лайка с основной страницы фильмов
   const onMovieDelete = (movie) => {
     const jwt = localStorage.getItem('jwt');
+    const moviesWithLikes = movies.map((m) => m.id === movie.id ? movieAdapter(m) : m);
+    setMovies(moviesWithLikes);
+    setMoviesForSearch(moviesWithLikes);
+    localStorage.setItem('moviesArr', JSON.stringify(moviesWithLikes));
+    const deletedMovie = savedMovies.find((m) => movie.id === m.movieId)
+    console.log(deletedMovie)
+    MainApi.deleteMovieFromFavourites(deletedMovie._id, jwt)
+      .then(() => {
+        const newSavedMovies = savedMovies.filter((m) => deletedMovie._id !== m._id);
+        setSavedMovies(newSavedMovies);
+        setSavedMoviesForSearch(newSavedMovies);
+      })
+      .then(() => history.push('/movies'))
+      .catch((err) => console.log(err))
+  }
+
+  // удаление лайка со страницы сохраненных фильмов
+  const onSavedMovieDelete = (movie) => {
+    const jwt = localStorage.getItem('jwt');
     MainApi.deleteMovieFromFavourites(movie._id, jwt)
-    .then((deletedMovie) => {
-      const newSavedMovies = savedMovies.filter((m) => m._id !== deletedMovie._id);
-      const newAllMovies = movies.map((m) => m.id === deletedMovie.movieId ? movieAdapter(m) : m);
+      .then(() => {
+        const newSavedMovies = savedMovies.filter((deletedMovie) => deletedMovie._id !== movie._id);
+        const newAllMovies = movies.map((m) => m.id === movie.movieId ? movieAdapter(m) : m);
 
-      setSavedMovies(newSavedMovies);
-      setSavedMoviesForSearch(newSavedMovies);
+        setSavedMovies(newSavedMovies);
+        setSavedMoviesForSearch(newSavedMovies);
 
-      setMovies(newAllMovies);
-      setMoviesForSearch(newAllMovies);
+        setMovies(newAllMovies);
+        setMoviesForSearch(newAllMovies);
 
-      localStorage.setItem('moviesArr', JSON.stringify(newAllMovies));
-    })
+        localStorage.setItem('moviesArr', JSON.stringify(newAllMovies));
+
+      })
   }
 
   return (
@@ -220,7 +241,7 @@ export function App() {
             searchMoviesArr={savedMoviesForSearch}
             loggedIn={loggedIn}
             onMovieLike={onMovieLike}
-            onMovieDelete={onMovieDelete}
+            onMovieDelete={onSavedMovieDelete}
             movieApiStatus={movieApiStatus}
             onSearch={onSearchSavedMovies}
           />
