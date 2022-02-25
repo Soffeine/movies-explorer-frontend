@@ -9,7 +9,6 @@
 .login__form {
   width: 100%;
   margin-top: 40px;
-  margin-bottom: 179px;
 }
 
 .login__text {
@@ -25,6 +24,27 @@
 .login__text_link {
   text-decoration: none;
   color: #4285f4;
+}
+
+.button_blue {
+  width: 100%;
+  min-height: 45px;
+  appearance: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  background: #4285f4;
+  margin-top: 179px;
+}
+
+.button_blue_disabled {
+  background: #A0A0A0;
+  color: #202020;
 }
 
 @media screen and (max-width: 768px) {

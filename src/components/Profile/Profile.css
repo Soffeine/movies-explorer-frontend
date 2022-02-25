@@ -16,7 +16,6 @@
   display: grid;
   grid-template-columns: repeat(2, 141px 122px);
   gap: 147px;
-  margin-bottom: 17px;
   border-bottom: 1px solid #424242;
   padding-bottom: 16px;
 }
@@ -73,6 +72,20 @@
 
 .profile__button_signout {
   color: #EE3465;
+}
+
+.profile__input-error {
+  width: 100%;
+  margin: 10px 0 17px;
+}
+
+.profile__input-error-message {
+  margin: 0;
+  font-size: 10px;
+  color: #EE3465;
+  line-height: 12px;
+  min-height: 10px;
+  text-align: right;
 }
 
 @media screen and (max-width: 768px) {
