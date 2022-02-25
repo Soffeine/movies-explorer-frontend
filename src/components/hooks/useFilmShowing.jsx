@@ -81,15 +81,13 @@ export const useFilmShowing = ({ containerRef, arr, isShortFilm, }) => {
                 setMaxFilmCounter(16)
             }
         }
-        // подписать на измение переменной
-
     }, [])
 
 
     useEffect(() => {
         switch (screenType) {
             case ScreenType.DESKTOP: {
-                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr)); // переменная вместо числа
+                setCurrentMoviesArr(filterFilmArr(maxFilmCounter, arr));
                 return;
             }
             case ScreenType.TABLET: {

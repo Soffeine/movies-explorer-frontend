@@ -1,4 +1,3 @@
-// сохранение состояния чекбокса и результата поиска
 import React from 'react';
 import './App.css';
 import { useEffect, useState } from 'react';
@@ -30,6 +29,8 @@ export function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [moviesForSearch, setMoviesForSearch] = useState([]);
   const [savedMoviesForSearch, setSavedMoviesForSearch] = useState([]);
+  const [isShortFilm, setIsShortFilm] = useState(false)
+
 
   const { errors, setSubmitError } = useForm();
 
@@ -71,7 +72,8 @@ export function App() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
     localStorage.removeItem('moviesArr');
-    localStorage.removeItem('moviesOnSearch')
+    localStorage.removeItem('moviesOnSearch');
+    localStorage.removeItem('checkboxStatus');
   }
 
   // редактирование данных пользователя
@@ -83,10 +85,10 @@ export function App() {
           name: res.name,
           email: res.email
         });
-        setSubmitError('Данные изменены!')
+        setSubmitError('Данные изменены!');
       })
       .catch((err) => {
-        setSubmitError('Ну вот, что-то пошло не так...')
+        setSubmitError('Ну вот, что-то пошло не так...');
       })
   }
 
@@ -97,7 +99,7 @@ export function App() {
         setLoggedIn(true);
         setCurrentUser(data);
       })
-      .catch((err) => { console.log(err) })
+      .catch((err) => { console.log(err) });
   };
 
   useEffect(() => {
@@ -108,21 +110,26 @@ export function App() {
     }
   }, [loggedIn])
 
-  const moviesWhithLikeData = JSON.parse(localStorage.getItem('moviesArr'))
+  const moviesWhithLikeData = JSON.parse(localStorage.getItem('moviesArr'));
 
   useEffect(() => {
     if (loggedIn) {
       const token = localStorage.getItem('jwt');
       if (moviesWhithLikeData) {
-        setMovies(moviesWhithLikeData)
-        setMoviesForSearch(moviesWhithLikeData)
+        setMovies(moviesWhithLikeData);
+        setMoviesForSearch(moviesWhithLikeData);
         MainApi.getSavedMovies(token)
+          
           .then(setMovieApiStatus(LoadingStatus.FETCHING))
           .then((savedMoviesRes) => {
-            const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie))
+            const adaptedSavedMovies = savedMoviesRes.slice().map(movie => savedMovieAdapter(movie));
             setSavedMovies(adaptedSavedMovies);
             setSavedMoviesForSearch(adaptedSavedMovies);
             setMovieApiStatus(LoadingStatus.SUCCESSFUL)
+          })
+          .then(() => {
+            const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
+            setIsShortFilm(checkboxStatus);
           })
       } else {
         Promise.all([getMovies(), MainApi.getSavedMovies(token)])
@@ -135,6 +142,10 @@ export function App() {
             setSavedMovies(adaptedSavedMovies);
             setSavedMoviesForSearch(adaptedSavedMovies);
             setMovieApiStatus(LoadingStatus.SUCCESSFUL)
+          })
+          .then(() => {
+            const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
+            setIsShortFilm(checkboxStatus);
           })
           .catch((err) => {
             console.log(err)
@@ -181,11 +192,14 @@ export function App() {
   const onMovieDelete = (movie) => {
     const jwt = localStorage.getItem('jwt');
     const moviesWithLikes = movies.map((m) => m.id === movie.id ? movieAdapter(m) : m);
+
     setMovies(moviesWithLikes);
     setMoviesForSearch(moviesWithLikes);
+
     localStorage.setItem('moviesArr', JSON.stringify(moviesWithLikes));
+
     const deletedMovie = savedMovies.find((m) => movie.id === m.movieId)
-    console.log(deletedMovie)
+
     MainApi.deleteMovieFromFavourites(deletedMovie._id, jwt)
       .then(() => {
         const newSavedMovies = savedMovies.filter((m) => deletedMovie._id !== m._id);
@@ -211,7 +225,6 @@ export function App() {
         setMoviesForSearch(newAllMovies);
 
         localStorage.setItem('moviesArr', JSON.stringify(newAllMovies));
-
       })
   }
 
@@ -234,7 +247,9 @@ export function App() {
             onMovieLike={onMovieLike}
             onMovieDelete={onMovieDelete}
             movieApiStatus={movieApiStatus}
+            checkboxStatus={isShortFilm}
           />
+
           <ProtectedRoute path="/saved-movies"
             component={SavedMovies}
             moviesArr={savedMovies}
@@ -244,7 +259,9 @@ export function App() {
             onMovieDelete={onSavedMovieDelete}
             movieApiStatus={movieApiStatus}
             onSearch={onSearchSavedMovies}
+            checkboxStatus={isShortFilm}            
           />
+
           <ProtectedRoute path="/profile"
             component={Profile}
             onEditProfile={onEditProfile}

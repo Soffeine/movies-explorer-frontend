@@ -3,7 +3,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import { useState } from 'react';
 
 
-function SearchForm({ handleCheckbox, onSearch, movieArr, searchMoviesArr }) {
+function SearchForm({ handleCheckbox, onSearch, searchMoviesArr, checkboxStatus }) {
 
     const [value, setValue] = useState("");
 
@@ -37,7 +37,7 @@ function SearchForm({ handleCheckbox, onSearch, movieArr, searchMoviesArr }) {
                         <button className="search-form__button" type="submit">Поиск</button>
                     </div>
                     <div className="search-form__checkbox">
-                        <FilterCheckbox handleCheckbox={handleCheckbox} />
+                        <FilterCheckbox handleCheckbox={handleCheckbox} checkboxStatus={checkboxStatus} />
                         <p className="search-form__checkbox-name">Короткометражки</p>
                     </div>
                 </div>
