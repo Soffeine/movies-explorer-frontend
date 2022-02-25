@@ -1,7 +1,6 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import { useState } from 'react';
-
+import { useState, useEffect  } from 'react';
 
 function SearchForm({ handleCheckbox, onSearch, searchMoviesArr, checkboxStatus }) {
 
@@ -9,10 +8,19 @@ function SearchForm({ handleCheckbox, onSearch, searchMoviesArr, checkboxStatus 
 
     // функция записи значения инпута
     const handleChangeOnSearch = (e) => {
+        const searchValue = e.target.value;
         e.persist();
-        setValue(e.target.value)
+        setValue(e.target.value);
+        localStorage.setItem('searchValue', searchValue);
     }
 
+    const searchValue = localStorage.getItem('searchValue');
+    
+    useEffect(() => {
+        if(searchValue !== undefined) {
+            setValue(searchValue)
+        }
+    }, [searchValue])
 
     // функция сабмита
     const handleSubmitOnSearch = (e, value, arr) => {
