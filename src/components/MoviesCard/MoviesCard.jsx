@@ -1,25 +1,31 @@
 import './MoviesCard.css';
+import { BASE_URL } from '../../utils/MoviesApi';
+import { useLocation } from 'react-router-dom';
 
-// с апи длительность фильма будет приходить в минутах
 function getTimeFromMins(mins) {
     let hours = Math.trunc(mins / 60);
     let minutes = mins % 60;
     return hours + 'ч ' + minutes + 'м';
 }
 
-// всё, что касается likeActive - временное решение для верного отображения страницы
+function MoviesCard({ movie, onLike, onDelete }) {
+    const location = useLocation();
+    const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, isLiked } = movie;
 
+    const likeStatus = (`movie__like-button ${isLiked ? 'movie__like-button_active' : ''}`);
+    const imageUrl = location.pathname === '/movies' && typeof movie === 'object' && movie?.image?.formats?.thumbnail?.url ? BASE_URL + movie.image.formats.thumbnail.url : movie.image;
 
-function MoviesCard(data) {
-    const likeStatus = (`movie__like-button ${data.isLiked ? 'movie__like-button_active' : ''}`)
+    const handleLikeClick = () => {
+        isLiked ? onDelete(movie) : onLike(movie)
+    }
     return (
         <div className="movie">
-            <img className="movie__poster" src={data.image} alt="постер к фильму" />
+            <a href={movie.trailerLink} className="movie__poster" target="_blank" rel='noreferrer'><img className="movie__poster-image" src={imageUrl} alt={director} /></a>
             <div className="movie__container">
-                <p className="movie__name">{data.name}</p>
-                    <button className={likeStatus}></button>
+                <a href={movie.trailerLink} className="movie__name" target="_blank" rel='noreferrer'>{nameRU}</a>
+                <button className={likeStatus} onClick={handleLikeClick}></button>
             </div>
-            <p className="movie__duration">{getTimeFromMins(data.duration)}</p>
+            <p className="movie__duration">{getTimeFromMins(duration)}</p>
         </div >
     )
 };
